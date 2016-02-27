@@ -1,7 +1,6 @@
-var pokeApp = angular.module('pokedex', ['ngResource']);
+var pokeApp = angular.module('pokedex', ['pokeController', 'pokeService']);
 
 pokeApp.config(['$resourceProvider', function($resourceProvider) {
-    $resourceProvider.defaults.stripTrailingSlashes = false;
-}]);
+        $resourceProvider.defaults.stripTrailingSlashes = false;
+    }]);
 
-var pokeApiUrl = "http://pokeapi.co/"
