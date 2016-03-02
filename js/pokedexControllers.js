@@ -1,57 +1,57 @@
 var pokeController = angular.module('pokeController', []);
-var pokemonId = 0;
 
-pokeController.controller('searchPokemon', ['$scope', '$log', /*'$http', '$templateCache',*/'Pokemon',/*'$promise',*/
-    function($scope, $log, /*$http, $templateCache,*/ Pokemon/*, $promise*/) {
-        $scope.pokemonList = [
-            {
-                id: 1,
-                name: 'bulbasaur'
-            },
-            {
-                id: 2,
-                name: 'ivysaur'
-            },
-            {
-                id: 3,
-                name: 'venusaur'
-            },
-            {
-                id: 4,
-                name: 'charmander'
-            }
-        ];
-
-        $scope.$watch('pokemonId', function(){
-           pokemonId = $scope.pokemonId;
-        });
+pokeController.controller('searchPokemon', ['$scope', '$log', '$http', '$templateCache', 'bridge',
+    function($scope, $log, $http, $templateCache, bridge) {
+        /* $scope.pokemonList = [
+         {
+         id: 1,
+         name: 'bulbasaur'
+         },
+         {
+         id: 2,
+         name: 'ivysaur'
+         },
+         {
+         id: 3,
+         name: 'venusaur'
+         },
+         {
+         id: 4,
+         name: 'charmander'
+         },
+         {
+         id: 54,
+         name: 'psyduck'
+         }
+         ];*/
+       
+        $scope.getSelectedPokemon = function(){
+            bridge.setId($scope.selectedPokemon);
+        };
         
-        $scope.$watch('selectedPokemon', function(){
-           pokemonId = $scope.selectedPokemon;
+        $scope.$watch('pokemonId', function() {
+           // bridge.setId($scope.pokemonId);
         });
-        
-        $scope.getSelectedPokemon = function() {
-              var data = Pokemon.get({pokemonId : pokemonId}, function(){
-                   $log.log(data.national_id+' '+data.name);
-                   data.moves.forEach(function(move){
-                      $log.log(move.name);
-                  });
-                       
-              });
-              
-        }
-        /*
-        $scope.getSelectedPokemon = function() {
-            $http({
-                method: 'GET',
-                url: $scope.urlgetPokemonByName,
-                cache: $templateCache
-            }).then(function(response) {
-                $log.log(response);
-            }, function(response) {
-                $log.log(response);
-            });
-        };*/
-
+         
+        $http({
+            method: 'GET',
+            url: 'http://pokeapi.co/api/v1/pokedex/1',
+            cache: $templateCache
+        }).then(function(response) {
+            $scope.pokemonList = response.data.pokemon;
+        }, function(response) {
+            $log.log(response);
+        });
     }]);
-
+    
+pokeController.controller('pokemonDetails', ['$scope','Pokemon', 'bridge', '$log', function($scope, Pokemon, bridge, $log) {
+        
+        //http://stackoverflow.com/questions/26800783/angularjs-watch-service-object
+        $scope.$watch(function(){return bridge.getId();}, function() {
+            $scope.data = Pokemon.get({pokemonId: bridge.getId()} , function(){
+            $scope.pokemonImageLink = 'http://pokeapi.co/media/img/'+$scope.data.national_id+'.png';
+            
+        });
+        }, true);
+       
+    }]);

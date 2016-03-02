@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/angular-csp.css" />
     </head>
-    <body ng-app="pokedex">
+     <body ng-app="pokedex">
 
         <div class="container">
             <h1>Pokésir</h1>
@@ -27,28 +27,36 @@
                 <div class="form-group" ng-cloak> <!--https://docs.angularjs.org/api/ng/directive/ngCloak-->
                     <label for="choosedPokemon">choose Pokemon</label>
                     <select id="choosedPokemon" class="form-control" ng-model="selectedPokemon">
-                        <option ng-repeat="pokemon in pokemonList | filter:searchedPokemon" value="{{pokemon.id}}">{{pokemon.name}}</option>
+                        <option ng-repeat="pokemon in pokemonList | filter:searchedPokemon" value="{{pokemon.name}}">{{pokemon.name}}</option>
                     </select>
-                   </div>
-                <button ng-click="getSelectedPokemon()" type="button" class="btn btn-default">GO</button>
+                </div>
+                <button ng-click="getSelectedPokemon()" type="button" class="btn btn-default">GO</button>               
+            </div>
+            <br>
+            <!-- Pokémon information -->
+            <div ng-controller ="pokemonDetails">
+                <span ng-cloak >
+                    <img ng-src="{{pokemonImageLink}}">
+                    <h2>{{'#'+data.national_id+' '+data.name}}</h2>
+                    <ul>
+                        <li ng-repeat="move in data.moves">{{move.name}}</li>
+                    </ul>
+                </span>
             </div>
 
-            <!-- Pokémon information -->
-            <div></div>
-
         </div>
-
-        <!-- Dependencies -->
+        
+    <!-- Dependencies -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/angular.min.js"></script>
         <script src="js/angular-resource.min.js"></script>
 
         <!-- Pokedex app -->
+        <script src="js/pokedexDirectives.js"></script>
         <script src="js/pokedexServices.js"></script>
         <script src="js/pokedexControllers.js"></script>
         <script src="js/pokedex.js"></script>
-
-
     </body>
+
 </html>
