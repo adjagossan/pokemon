@@ -8,18 +8,34 @@ pokeService.factory('Pokemon', ['$resource', function($resource){
 
 pokeService.factory('bridge', [function(){
      var id = 0;
-     
+     var name = "";
+     var scope;
+
      var pokemon = {
 
          getId : function(){
             return id;
          },
-         
+
          setId : function(pkid){
             id = pkid;
+         },
+
+         getScope : function(){
+            return scope;
+         },
+
+         setScope : function(sc){
+            scope = sc;
+         },
+
+         getName : function(){
+            return name;
+         },
+
+         setName : function(pkName){
+            name = pkName;
          }
       };
-      return pokemon; 
+      return pokemon;
 }]);
-
-

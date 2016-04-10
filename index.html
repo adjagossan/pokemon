@@ -2,8 +2,7 @@
 <html>
     <head lang="en">
         <meta charset="UTF-8">
-        <title></title>
-
+        <title>pokedex</title>
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/angular-csp.css" />
     </head>
@@ -16,12 +15,12 @@
             <div ng-controller="searchPokemon">
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon1">Pokemon ID</span>
-                    <input ng-model="pokemonId" type="text" class="form-control" aria-describedby="basic-addon1">
+                    <input ng-model="pokemonId" ng-change="onChange(pokemonId)" type="text" class="form-control" aria-describedby="basic-addon1" placeholder="Tapez l'ID du pokemon à rechercher">
                 </div>
                 <br>
                 <div class="form-group">
                     <label >Pokemon name</label>
-                    <input type="text" class="form-control" id="usr" ng-model="searchedPokemon">
+                    <input type="text" class="form-control" id="usr" ng-model="searchedPokemon" placeholder="Tapez le nom du pokemon à rechercher">
                 </div>
                 <br>
                 <div class="form-group" ng-cloak> <!--https://docs.angularjs.org/api/ng/directive/ngCloak-->
@@ -30,22 +29,23 @@
                         <option ng-repeat="pokemon in pokemonList | filter:searchedPokemon" value="{{pokemon.name}}">{{pokemon.name}}</option>
                     </select>
                 </div>
-                <button ng-click="getSelectedPokemon()" type="button" class="btn btn-default">GO</button>               
+                <button ng-click="getSelectedPokemon(selectedPokemon)" type="button" class="btn btn-default">GO</button>
+                <img ng-show="loading" ng-src="img/loader.gif">
             </div>
             <br>
             <!-- Pokémon information -->
             <div ng-controller ="pokemonDetails">
-                <span ng-cloak >
-                    <img ng-src="{{pokemonImageLink}}">
-                    <h2>{{'#'+data.national_id+' '+data.name}}</h2>
+                <!--<span ng-cloak >
+                    <img ng-src="{{data.pokemonImageLink}}">
+                    <h2>{{data.info}}</h2>
                     <ul>
                         <li ng-repeat="move in data.moves">{{move.name}}</li>
                     </ul>
-                </span>
+                </span>-->
+                <pokedex></pokedex>
             </div>
-
         </div>
-        
+
     <!-- Dependencies -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
