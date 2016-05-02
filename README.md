@@ -1,2 +1,2 @@
-# teaching-jxs-tp3
+# Pokemon
 TP3 : AngularJS
